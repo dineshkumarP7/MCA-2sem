@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Registration</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        body {
+            background-color: #297257;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px; /* Set a maximum width for better readability on larger screens */
+        }
+
+        .error {
+            color: red;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensure padding and border are included in the element's total width/height */
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body ng-app="myapp" ng-controller="myctr">
+
+    <div class="container">
+        <form name="registrationForm" ng-submit="submitForm()" novalidate>
+            <label>First Name</label>
+            <input type="text" name="firstName" ng-model="formData.firstName" ng-pattern="/^[a-zA-Z ]*$/" required>
+            <span class="error" ng-show="registrationForm.firstName.$dirty && registrationForm.firstName.$error.required">First Name is required</span>
+            <span class="error" ng-show="registrationForm.firstName.$dirty && registrationForm.firstName.$error.pattern">Invalid characters</span>
+
+            <label>Last Name</label>
+            <input type="text" name="lastName" ng-model="formData.lastName" ng-pattern="/^[a-zA-Z ]*$/" required>
+            <span class="error" ng-show="registrationForm.lastName.$dirty && registrationForm.lastName.$error.required">Last Name is required</span>
+            <span class="error" ng-show="registrationForm.lastName.$dirty && registrationForm.lastName.$error.pattern">Invalid characters</span>
+
+            <label>Email</label>
+            <input type="email" name="email" ng-model="formData.email" required>
+            <span class="error" ng-show="registrationForm.email.$dirty && registrationForm.email.$error.required">Email is required</span>
+            <span class="error" ng-show="registrationForm.email.$dirty && registrationForm.email.$error.email">Enter a valid email address</span>
+
+            <label>Password</label>
+            <input type="password" name="password" ng-model="formData.password" ng-minlength="8" required>
+            <span class="error" ng-show="registrationForm.password.$dirty && registrationForm.password.$error.required">Password is required</span>
+            <span class="error" ng-show="registrationForm.password.$dirty && registrationForm.password.$error.minlength">Password should be at least 8 characters</span>
+
+            <label>Confirm Password</label>
+            <input type="password" name="confirmPassword" ng-model="formData.confirmPassword" ng-minlength="8" required>
+            <span class="error" ng-show="formData.password !== formData.confirmPassword && registrationForm.confirmPassword.$dirty">Passwords do not match</span>
+
+            <label>Gender</label>
+            <input type="radio" name="gender" ng-model="formData.gender" value="Male" required> Male
+            <input type="radio" name="gender" ng-model="formData.gender" value="Female" required> Female
+
+            <label>Date of Birth</label>
+            <input type="date" name="dob" ng-model="formData.dob" required>
+            <span class="error" ng-show="registrationForm.dob.$dirty && registrationForm.dob.$error.required">Date of Birth is required</span>
+
+            <label>Address</label>
+            <textarea name="address" ng-model="formData.address" required></textarea>
+            <span class="error" ng-show="registrationForm.address.$dirty && registrationForm.address.$error.required">Address is required</span>
+
+            <label>Select Course</label>
+            <select name="course" ng-model="formData.course" required>
+                <option value="" disabled>Select a course</option>
+                <option value="Course1">Course 1</option>
+                <option value="Course2">Course 2</option>
+                <!-- Add more options as needed -->
+            </select>
+            <span class="error" ng-show="registrationForm.course.$dirty && registrationForm.course.$error.required">Select a course</span>
+
+            <label>Duration</label>
+            <input type="text" name="duration" ng-model="formData.duration" required>
+            <span class="error" ng-show="registrationForm.duration.$dirty && registrationForm.duration.$error.required">Duration is required</span>
+
+            <button type="submit" ng-disabled="registrationForm.$invalid">Register</button>
+        </form>
+    </div>
+
+    <script>
+        angular.module('myapp', []).controller('myctr', function ($scope) {
+            $scope.formData = {};
+
+            $scope.submitForm = function () {
+                // Your form submission logic goes here
+                console.log('Form submitted with data:', $scope.formData);
+            };
+        });
+    </script>
+</body>
+
+</html>
